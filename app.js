@@ -39,7 +39,7 @@ app.use('/js', express.static('./static/js'))
 
 /* Get 방식으로 / 경로에 접속하면 실행 됨 */
 app.get('/', function(request, response) {
-    fs.readFile('./index.html', function(err, data){
+    fs.readFile('./static/index.html', function(err, data){
         if(err) {
             response.send('에러')
         }else{
@@ -48,7 +48,7 @@ app.get('/', function(request, response) {
             response.end()
         }
     })
-  //console.log('유저가 / 으로 접속하였습니다!')
+  })
 
 io.sockets.on('connection', function(socket) { 
   //  connection 이벤트 발생할 경우 콜백함수 실행 
@@ -77,9 +77,9 @@ io.sockets.on('connection', function(socket) {
       socket.broadcast.emit('update', data)
     })
    
-   /* 접속 종료 */
-  socket.on('disconnect', function(){
-    console.log(socket.name + '님이 나가셨습니다.')
+/* 접속 종료 */
+socket.on('disconnect', function(){
+  console.log(socket.name + '님이 나가셨습니다.')
    
     /* 나가는 사람을 제외한 나머지 유저에게 메세지 전송 */
     socket.broadcast.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + '님이 나가셨습니다.'})
@@ -96,11 +96,7 @@ io.sockets.on('connection', function(socket) {
     })
   })
 
-/* 클라이언트로 문자열 응답 */
-  //response.send('Hello, Express Server!!')
-})
-
 /* 서버를 8080 포트로 listen */
-server.listen(8070, function() {
+server.listen(8050, function() {
   console.log('서버 실행 중..')
 })
