@@ -34,21 +34,21 @@ const io = socket(server)
 
 // 정적 파일을 제공하기 위해 미들웨어를 사용하는 코드
 //app.use를 사용하여 원하는 미들웨어를 추가하여 조합 가능
-app.use('/css', express.static('./static/css'))
-app.use('/js', express.static('./static/js'))
+app.use('/css', express.static('./node-chat/static/css'))
+app.use('/js', express.static('./node-chat/static/js'))
 
 /* Get 방식으로 / 경로에 접속하면 실행 됨 */
 app.get('/', function(request, response) {
-    fs.readFile('./static/index.html', function(err, data){
-        if(err) {
-            response.send('에러')
-        }else{
-            response.writeHead(200, {'Content-Type':'text/html'})
-            response.write(data)
-            response.end()
-        }
-    })
+  fs.readFile('./node-chat/static/index.html', function(err, data){
+    if(err) {
+        response.send('에러ㅠㅠ')
+    }else{
+        response.writeHead(200, {'Content-Type':'text/html'})
+        response.write(data)
+        response.end()
+      }
   })
+})
 
 io.sockets.on('connection', function(socket) { 
   //  connection 이벤트 발생할 경우 콜백함수 실행 
@@ -97,6 +97,6 @@ socket.on('disconnect', function(){
   })
 
 /* 서버를 8080 포트로 listen */
-server.listen(8050, function() {
+server.listen(8070, function() {
   console.log('서버 실행 중..')
 })
